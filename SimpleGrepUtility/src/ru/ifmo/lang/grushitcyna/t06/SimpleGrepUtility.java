@@ -25,43 +25,40 @@ public class SimpleGrepUtility implements Grep {
     }
 
     public List<String> findLines(String regex) {
-        try {
-            String line = bufferedReader.readLine();
-            while (line != null) {
-                if (line.contains(regex)) {
-                    result.add(line);
-                }
-                line = bufferedReader.readLine();
-            }
-        } catch (IOException e) {
-            System.out.println("Ошибка I/O при считывании из файла!");
-            e.printStackTrace();
-        }
+        lineReader(regex, 1);
         return result;
     }
 
     public List<String> findParts(String regex) {
-        try {
-            String line = bufferedReader.readLine();
-            while (line != null) {
-                if (line.contains(regex)) {
-                    result.add(regex);
-                }
-                line = bufferedReader.readLine();
-            }
-        } catch (IOException e) {
-            System.out.println("Ошибка I/O при считывании из файла!");
-            e.printStackTrace();
-        }
+        lineReader(regex, 2);
         return result;
     }
 
     public List<String> findInvertMatch(String regex) {
+        lineReader(regex, 3);
+        return result;
+    }
+
+    public void lineReader(String regex, int event) {
         try {
             String line = bufferedReader.readLine();
             while (line != null) {
-                if (!line.contains(regex)) {
-                    result.add(line);
+                switch (event) {
+                    case 1: {
+                        if (line.contains(regex)) {
+                            result.add(line);
+                        }
+                    }
+                    case 2: {
+                        if (line.contains(regex)) {
+                            result.add(regex);
+                        }
+                    }
+                    case 3: {
+                        if (!line.contains(regex)) {
+                            result.add(line);
+                        }
+                    }
                 }
                 line = bufferedReader.readLine();
             }
@@ -69,29 +66,20 @@ public class SimpleGrepUtility implements Grep {
             System.out.println("Ошибка I/O при считывании из файла!");
             e.printStackTrace();
         }
-        return result;
     }
-
-
-    public static void main(String args[]) {
+    public static void main(String args[]) throws FileNotFoundException {
 
         if (args.length < 2 || args.length > 3) {
-            System.out.println("Использование: ru.ifmo.lang.grushitcyna.t06.ru.ifmo.lang.grushitcyna.t06.SimpleGrepUtility [-o] [-v] 'Шаблон' 'Путь к файлу' ");
+            System.out.println("Использование: ru.ifmo.lang.grushitcyna.t06.ru.ifmo.lang.grushitcyna.t06.ru.ifmo.lang.grushitcyna.t06.SimpleGrepUtility [-o] [-v] 'Шаблон' 'Путь к файлу' ");
             return;
         }
-
+        InputStream inputStream = null;
         if (args.length == 2) {
             if (!Files.exists(Paths.get(args[1]))) {
                 System.out.println("Файла не сушествует!");
                 return;
             }
-            InputStream inputStream = null;
-            try {
-                inputStream = new FileInputStream(args[1]);
-            } catch (FileNotFoundException e) {
-                System.out.println("Файл не найден!");
-                e.printStackTrace();
-            }
+            inputStream = new FileInputStream(args[1]);
             SimpleGrepUtility simpleGrepUtility = new SimpleGrepUtility(inputStream);
             System.out.println(simpleGrepUtility.findLines(args[0]));
             simpleGrepUtility.close();
@@ -104,29 +92,17 @@ public class SimpleGrepUtility implements Grep {
             }
 
             if (args[0].equals("-o")) {
-                InputStream inputStream = null;
-                try {
-                    inputStream = new FileInputStream(args[2]);
-                } catch (FileNotFoundException e) {
-                    System.out.println("Файл не найден!");
-                    e.printStackTrace();
-                }
+                inputStream = new FileInputStream(args[2]);
                 SimpleGrepUtility simpleGrepUtility = new SimpleGrepUtility(inputStream);
                 System.out.println(simpleGrepUtility.findParts(args[1]));
                 simpleGrepUtility.close();
             } else if (args[0].equals("-v")) {
-                InputStream inputStream = null;
-                try {
-                    inputStream = new FileInputStream(args[2]);
-                } catch (FileNotFoundException e) {
-                    System.out.println("Файл не найден!");
-                    e.printStackTrace();
-                }
+                inputStream = new FileInputStream(args[2]);
                 SimpleGrepUtility simpleGrepUtility = new SimpleGrepUtility(inputStream);
                 System.out.println(simpleGrepUtility.findInvertMatch(args[1]));
                 simpleGrepUtility.close();
             } else {
-                System.out.println("Использование: ru.ifmo.lang.grushitcyna.t06.ru.ifmo.lang.grushitcyna.t06.SimpleGrepUtility [-o] [-v] 'Шаблон' 'Путь к файлу' ");
+                System.out.println("Использование: ru.ifmo.lang.grushitcyna.t06.ru.ifmo.lang.grushitcyna.t06.ru.ifmo.lang.grushitcyna.t06.SimpleGrepUtility [-o] [-v] 'Шаблон' 'Путь к файлу' ");
             }
         }
 

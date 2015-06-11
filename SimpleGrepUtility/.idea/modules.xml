@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/SimpleGrepUtility.iml" filepath="$PROJECT_DIR$/SimpleGrepUtility.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SimpleGrepUtility.iml" filepath="$PROJECT_DIR$/SimpleGrepUtility.iml" />
     </modules>
   </component>
 </project>

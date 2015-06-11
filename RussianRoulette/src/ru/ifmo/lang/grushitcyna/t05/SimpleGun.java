@@ -1,4 +1,4 @@
-package ru.ifmo.lang.grushitcyna.t05;
+package ru.ifmo.lang.grushitcyna.t05;//import ru.ifmo.lang.grushitcyna.t05.ru.ifmo.lang.grushitcyna.t05.RussianRoulette;
 
 import ru.ifmo.lang.grushitcyna.t05.RussianRoulette;
 
